@@ -1,0 +1,38 @@
+name: Yasmine Ben Taarit
+output_dir: '.'
+navbar:
+  title: Yasmine Ben Taarit
+  type: inverse
+  left:
+  - text: Home
+    icon: fa-home
+    href: index.html
+  - text: My projects
+    menu: 
+      - text: Tunisian Map with R
+        href: Delégation.html
+      - text: Iris Data with rbokeh 
+        href: rbokeh.html
+        
+  - text: Other projects
+    menu: 
+      - text: Text Mining with python
+        href: finalcode.html
+      - text: Credit Scoring
+        href: Projet_Scoring.html
+      - text: Facebook Data Analytics
+        href: Facebook+Data+Analytics+.html
+        
+  - text: My CV
+    href: CV.pdf
+  right:
+  - icon: fa-github fa-lg
+    href: https://github.com/yasmine1994
+  - icon: fa-linkedin fa-lg
+    href: https://www.linkedin.com/in/yasmine-ben-taarit/
+  - icon: fa-facebook fa-lg
+    href: https://www.facebook.com/yass.mine.96
+output:
+  html_document:
+    theme: cosmo
+    highlight: textmate

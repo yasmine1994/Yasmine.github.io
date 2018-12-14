@@ -1,0 +1,55 @@
+---
+title: "Répartition de la population agée de 10 ans et plus"
+author: "yasmine ben taarit"
+output: html_document
+---
+
+```{r}
+var=7
+library(readxl)
+library(flexdashboard)
+library(raster)
+library(leaflet)
+library(shiny)
+
+tnMAPDELE<- getData(name="GADM",  country="TUN", level=2)
+Code <- read_excel("C:/Users/User/Downloads/Code Delegation Tunisie.xlsx")
+stage <- read_excel("C:/Users/User/Downloads/stage.xlsx")
+  i=match(stage$Régions,Code$Régions)
+ mm=NULL
+  dataB<- cbind.data.frame(stage,Code[i,"HASC"])
+   l=match(tnMAPDELE$HASC_2,dataB$HASC)
+  
+  dataB<- cbind.data.frame(dataB[l,],tnMAPDELE)
+dataB[is.na(dataB[,var]),var]=0
+c="%"
+ labels<-sprintf("<strong>%s<br/><strong>%g<br/><strong>%s<br/>",dataB[,"NAME_2"],dataB[,var],dataB[,"NAME_1"])
+  labels<-paste(labels)%>%lapply(htmltools::HTML)
+  col<-colorRampPalette(c("blue","gray","white","red","black"))
+  pal <- colorNumeric(col(268),domain = dataB[,var],n=268)
+ 
+   mm=leaflet(data = tnMAPDELE) %>%addProviderTiles(providers$Esri.WorldImagery)%>% addPolygons(data=tnMAPDELE,
+                       fillColor=~pal(dataB[,var]),
+                       fillOpacity=10,
+                       col="black",
+                       weight=1.1,
+                       opacity=0.7,
+                       highlight=highlightOptions(weight=4.0,
+                                                  color="#FFFFFF",
+                                                  fillOpacity = 0.7,
+                                                  bringToFront = TRUE),
+                       label=labels,
+                       labelOptions=labelOptions( style = list("font-weight" = "normal",
+                                                               padding = "3px 8px"),
+                                                  textsize = "15px",
+                                                  direction = "auto"))%>%addLegend(data=dataB,
+                       pal=pal,
+                       values=~dataB[,var],
+                       opacity=1.5,
+                       title = colnames(dataB)[var])
+   mm
+```
+
+
+-----------------------------------------------------------------------
+
